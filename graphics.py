@@ -9,6 +9,9 @@ import const
 
 from user_ai import *
 
+PLAYER_BLACK = 'AI'
+PLAYER_WHITE = 'PLAYER'
+
 class GobangGraphics:
     def run_game(self):
         self.gamesys = GobangGameSystem()
@@ -36,23 +39,22 @@ class GobangGraphics:
         game_over_flg = False
         while True:
             clock.tick(30)
-            # 
 
             # player black
             if self.gamesys.cur_color == const.BLACK:
                 print("BLACK's turn!")
-                coordx, coordy = yota_ai.put_stone()
-                pygame.time.wait(100)
+                if PLAYER_BLACK == 'AI':
+                    coordx, coordy = yota_ai.put_stone()
+                else:
+                    coordx, coordy = self.click_put_stone()
 
             # player white
             if self.gamesys.cur_color == const.WHITE:
-                # print("WHITE's turn!")
-                # coordx, coordy = yota_ai2.put_stone()
-                
-                event = pygame.event.wait()
-                if event.type == const.MOUSEBUTTONUP and event.button == 1:
-                    posx, posy = event.pos
-                    coordx, coordy = self.get_coord_from_pos(posx, posy)
+                print("WHITE's turn!")
+                if PLAYER_WHITE == 'AI':
+                    coordx, coordy = yota_ai2.put_stone()
+                else:
+                    coordx, coordy = self.click_put_stone()
 
             if coordx != None and coordy != None:
                 if self.gamesys.put_stone(coordx, coordy, self.gamesys.cur_color):
@@ -77,6 +79,16 @@ class GobangGraphics:
             if event.type == const.MOUSEBUTTONUP and event.button == 1:
                 break
             if event.type == const.QUIT:
+                sys.exit()
+
+    def click_put_stone(self):
+        while True:
+            event = pygame.event.wait()
+            if event.type == const.MOUSEBUTTONUP and event.button == 1:
+                posx, posy = event.pos
+                coordx, coordy = self.get_coord_from_pos(posx, posy)
+                return (coordx, coordy)
+            elif event.type == const.QUIT:
                 sys.exit()
 
     def draw_win_text(self, color):
