@@ -36,7 +36,7 @@ class GobangGraphics:
         game_over_flg = False
         while True:
             clock.tick(30)
-            # event = pygame.event.wait()
+            # 
 
             # player black
             if self.gamesys.cur_color == const.BLACK:
@@ -46,12 +46,13 @@ class GobangGraphics:
 
             # player white
             if self.gamesys.cur_color == const.WHITE:
-                print("WHITE's turn!")
-                coordx, coordy = yota_ai2.put_stone()
-                pygame.time.wait(100)
-                # if event.type == const.MOUSEBUTTONUP and event.button == 1:
-                #     posx, posy = event.pos
-                #     coordx, coordy = self.get_coord_from_pos(posx, posy)
+                # print("WHITE's turn!")
+                # coordx, coordy = yota_ai2.put_stone()
+                
+                event = pygame.event.wait()
+                if event.type == const.MOUSEBUTTONUP and event.button == 1:
+                    posx, posy = event.pos
+                    coordx, coordy = self.get_coord_from_pos(posx, posy)
 
             if coordx != None and coordy != None:
                 if self.gamesys.put_stone(coordx, coordy, self.gamesys.cur_color):
