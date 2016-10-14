@@ -24,6 +24,3 @@ class AiTest:
                     rx=x
                     ry=y
         return (rx,ry)
-
-
-

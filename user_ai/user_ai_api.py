@@ -4,7 +4,7 @@
 from game_sys_graphics import GobangGameSystem
 
 class UserAi:
-    def __init__(gamesys_obj):
+    def __init__(self, gamesys_obj):
         self.__gamesys = gamesys_obj
 
     def get_board(self):

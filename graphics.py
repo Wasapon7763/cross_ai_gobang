@@ -7,9 +7,7 @@ import game_sys_graphics
 from game_sys_graphics import GobangGameSystem
 import const
 
-sys.path.append('user_ai')
-from user_ai_api import UserAi
-from ai_test import AiTest
+from user_ai import *
 
 class GobangGraphics:
     def run_game(self):
@@ -30,30 +28,43 @@ class GobangGraphics:
         self.draw_board()
         pygame.display.update()
 
-        user_ai = UserAi(self.gamesys)
-        ai_test = AiTest(user_ai)
+        # load AI
+        ai_api = user_ai_api.UserAi(self.gamesys)
+        yota_ai = yotas_ai.Yotaisthebest(ai_api)
+        yota_ai2 = yotas_ai.Yotaisthebest(ai_api)
+
         game_over_flg = False
         while True:
-            event = pygame.event.wait()
+            clock.tick(30)
+            # event = pygame.event.wait()
 
-            if event.type == const.MOUSEBUTTONUP and event.button == 1:
-                posx, posy = event.pos
-                coordx, coordy = self.get_coord_from_pos(posx, posy)
+            # player black
+            if self.gamesys.cur_color == const.BLACK:
+                print("BLACK's turn!")
+                coordx, coordy = yota_ai.put_stone()
+                pygame.time.wait(100)
 
-                if coordx != None and coordy != None:
-                    if self.gamesys.cur_color == const.BLACK:
-                        coordx, coordy = ai_test.put_stone()
+            # player white
+            if self.gamesys.cur_color == const.WHITE:
+                print("WHITE's turn!")
+                coordx, coordy = yota_ai2.put_stone()
+                pygame.time.wait(100)
+                # if event.type == const.MOUSEBUTTONUP and event.button == 1:
+                #     posx, posy = event.pos
+                #     coordx, coordy = self.get_coord_from_pos(posx, posy)
 
-                    if self.gamesys.put_stone(coordx, coordy, self.gamesys.cur_color):
-                        self.draw_stone(coordx, coordy, self.gamesys.cur_color)
-                        if self.gamesys.get_winner() != None:
-                            self.draw_win_text(self.gamesys.cur_color)
-                            game_over_flg = True
-                        self.gamesys.change_turns()
+            if coordx != None and coordy != None:
+                if self.gamesys.put_stone(coordx, coordy, self.gamesys.cur_color):
+                    self.draw_stone(coordx, coordy, self.gamesys.cur_color)
+                    if self.gamesys.get_winner() != None:
+                        self.draw_win_text(self.gamesys.cur_color)
+                        game_over_flg = True
+                    self.gamesys.change_turns()
                 pygame.display.update()
             
-            if event.type == const.QUIT:
-                sys.exit()
+            for event in pygame.event.get():
+                if event.type == const.QUIT:
+                    sys.exit()
 
             if game_over_flg:
                 self.wait_for_click()
