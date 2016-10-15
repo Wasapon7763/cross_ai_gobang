@@ -67,7 +67,7 @@ class GobangGraphics:
             
             for event in pygame.event.get():
                 if event.type == const.QUIT:
-                    return
+                    sys.exit()
 
             if game_over_flg:
                 self.wait_for_click()
