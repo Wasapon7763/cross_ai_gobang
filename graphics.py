@@ -71,7 +71,7 @@ class GobangGraphics:
 
             if game_over_flg:
                 self.wait_for_click()
-                return
+                return None
 
     def wait_for_click(self):
         while True:
