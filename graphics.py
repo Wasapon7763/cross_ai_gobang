@@ -85,9 +85,10 @@ class GobangGraphics:
         while True:
             event = pygame.event.wait()
             if event.type == const.MOUSEBUTTONUP and event.button == 1:
-                posx, posy = event.pos
-                coordx, coordy = self.get_coord_from_pos(posx, posy)
-                return (coordx, coordy)
+                if hasattr(event, 'pos'):
+                    posx, posy = event.pos
+                    coordx, coordy = self.get_coord_from_pos(posx, posy)
+                    return (coordx, coordy)
             elif event.type == const.QUIT:
                 sys.exit()
 
