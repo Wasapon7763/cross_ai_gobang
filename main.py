@@ -10,4 +10,5 @@ if __name__ == '__main__':
     # gobang_game = GobangGameSystem()
     # gobang_game.run_console()
     graphics = GobangGraphics()
-    graphics.run_game()
+    while True:
+        graphics.run_game()
